@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.poli.alimentosEspacial.controlador.ProductoControlador"
+            prefHeight="750.0" prefWidth="1000.0">
+    <children>
+        <Label layoutX="58.0" layoutY="30.0" text="ID Producto:"/>
+        <TextField fx:id="txtId" layoutX="158.0" layoutY="26.0" prefWidth="200.0"/>
+
+        <Label layoutX="58.0" layoutY="70.0" text="Nombre:"/>
+        <TextField fx:id="txtNombre" layoutX="158.0" layoutY="66.0" prefWidth="200.0"/>
+
+        <Label layoutX="58.0" layoutY="110.0" text="Peso (kg):"/>
+        <TextField fx:id="txtPeso" layoutX="158.0" layoutY="106.0" prefWidth="200.0"/>
+
+        <Label layoutX="58.0" layoutY="150.0" text="Volumen (m³):"/>
+        <TextField fx:id="txtVolumen" layoutX="158.0" layoutY="146.0" prefWidth="200.0"/>
+
+        <Label layoutX="408.0" layoutY="30.0" text="Tipo Producto:"/>
+        <ComboBox fx:id="cmbTipoProducto" layoutX="508.0" layoutY="26.0" prefWidth="200.0"/>
+
+        <Label layoutX="54.0" layoutY="200.0" text="Categoría:"/>
+        <RadioButton fx:id="rbAlimento" layoutX="150.0" layoutY="200.0" text="Alimento" selected="true">
+            <toggleGroup>
+                <ToggleGroup fx:id="categoria"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="rbEquipoMedico" layoutX="250.0" layoutY="200.0" text="Equipo Médico" toggleGroup="$categoria"/>
+        <RadioButton fx:id="rbHerramienta" layoutX="380.0" layoutY="200.0" text="Herramienta" toggleGroup="$categoria"/>
+        <RadioButton fx:id="rbEquipoComunicacion" layoutX="520.0" layoutY="200.0" text="Equipo Comunicación" toggleGroup="$categoria"/>
+
+        <Label layoutX="58.0" layoutY="250.0" text="Fecha Caducidad:" fx:id="lblFechaCaducidad"/>
+        <TextField fx:id="txtFechaCaducidad" layoutX="180.0" layoutY="246.0" prefWidth="180.0"/>
+
+        <Label layoutX="58.0" layoutY="290.0" text="Tipo Alimento:" fx:id="lblTipoAlimento"/>
+        <TextField fx:id="txtTipoAlimento" layoutX="180.0" layoutY="286.0" prefWidth="180.0"/>
+
+        <Label layoutX="408.0" layoutY="250.0" text="Calorías/Ración:" fx:id="lblCalorias"/>
+        <TextField fx:id="txtCalorias" layoutX="520.0" layoutY="246.0" prefWidth="180.0"/>
+
+        <Label layoutX="408.0" layoutY="70.0" text="Uso Específico:" fx:id="lblUsoEspecifico"/>
+        <TextField fx:id="txtUsoEspecifico" layoutX="520.0" layoutY="66.0" prefWidth="180.0"/>
+
+        <Label layoutX="408.0" layoutY="110.0" text="Fecha Esterilización:" fx:id="lblFechaEsterilizacion"/>
+        <TextField fx:id="txtFechaEsterilizacion" layoutX="548.0" layoutY="106.0" prefWidth="150.0"/>
+
+        <Label layoutX="408.0" layoutY="150.0" text="UDT:" fx:id="lblUdt"/>
+        <TextField fx:id="txtUdt" layoutX="520.0" layoutY="146.0" prefWidth="180.0"/>
+
+        <CheckBox fx:id="chkEsterilizado" layoutX="730.0" layoutY="110.0" text="Esterilizado"/>
+
+        <Label layoutX="58.0" layoutY="330.0" text="Función:" fx:id="lblFuncion"/>
+        <TextField fx:id="txtFuncion" layoutX="180.0" layoutY="326.0" prefWidth="180.0"/>
+
+        <Label layoutX="408.0" layoutY="290.0" text="Material:" fx:id="lblMaterial"/>
+        <TextField fx:id="txtMaterial" layoutX="520.0" layoutY="286.0" prefWidth="180.0"/>
+
+        <CheckBox fx:id="chkRequiereEnergia" layoutX="730.0" layoutY="290.0" text="Requiere Energía"/>
+
+        <Label layoutX="58.0" layoutY="370.0" text="Tipo Comunicación:" fx:id="lblTipoComunicacion"/>
+        <TextField fx:id="txtTipoComunicacion" layoutX="200.0" layoutY="366.0" prefWidth="160.0"/>
+
+        <Label layoutX="408.0" layoutY="330.0" text="Rango Frecuencia:" fx:id="lblRangoFrecuencia"/>
+        <TextField fx:id="txtRangoFrecuencia" layoutX="538.0" layoutY="326.0" prefWidth="160.0"/>
+
+        <Label layoutX="408.0" layoutY="370.0" text="Potencia (W):" fx:id="lblPotencia"/>
+        <TextField fx:id="txtPotencia" layoutX="520.0" layoutY="366.0" prefWidth="180.0"/>
+
+        <Button fx:id="btnCrear" layoutX="58.0" layoutY="420.0" onAction="#pressCrear" 
+                prefWidth="120.0" text="Crear"/>
+
+        <Button fx:id="btnActualizar" layoutX="195.0" layoutY="420.0" onAction="#pressActualizar" 
+                prefWidth="120.0" text="Actualizar"/>
+
+        <Button fx:id="btnEliminar" layoutX="332.0" layoutY="420.0" onAction="#pressEliminar" 
+                prefWidth="120.0" text="Eliminar"/>
+
+        <Button fx:id="btnLimpiar" layoutX="469.0" layoutY="420.0" onAction="#pressLimpiar" 
+                prefWidth="120.0" text="Limpiar"/>
+
+        <Button fx:id="btnGuardar" layoutX="606.0" layoutY="420.0" onAction="#pressGuardar" 
+                prefWidth="150.0" text="Guardar Archivo"/>
+
+        <Button fx:id="btnCargar" layoutX="773.0" layoutY="420.0" onAction="#pressCargar" 
+                prefWidth="150.0" text="Cargar Archivo"/>
+
+        <Label layoutX="58.0" layoutY="460.0" text="Total Registros:"/>
+        <Label fx:id="lblContador" layoutX="180.0" layoutY="460.0" text="0"/>
+
+        <TableView fx:id="tblView" layoutX="58.0" layoutY="490.0" 
+                   onMouseClicked="#displaySelected" 
+                   prefHeight="240.0" prefWidth="885.0">
+            <columns>
+                <TableColumn fx:id="columnId" text="ID" prefWidth="80.0"/>
+                <TableColumn fx:id="columnNombre" text="Nombre" prefWidth="150.0"/>
+                <TableColumn fx:id="columnPeso" text="Peso (kg)" prefWidth="90.0"/>
+                <TableColumn fx:id="columnVolumen" text="Volumen (m³)" prefWidth="110.0"/>
+                <TableColumn fx:id="columnCategoria" text="Categoría" prefWidth="130.0"/>
+                <TableColumn fx:id="columnDetalle1" text="Detalle 1" prefWidth="110.0"/>
+                <TableColumn fx:id="columnDetalle2" text="Detalle 2" prefWidth="110.0"/>
+                <TableColumn fx:id="columnDetalle3" text="Detalle 3" prefWidth="105.0"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
