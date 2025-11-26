@@ -12,8 +12,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Controlador principal para la gestión de productos espaciales.
+ * <p>
+ * Esta clase maneja la interfaz gráfica de usuario para realizar operaciones CRUD
+ * sobre diferentes tipos de productos: alimentos, equipos médicos, herramientas
+ * y equipos de comunicación.
+ * </p>
+ * 
+ * @author Politécnico Grancolombiano
+ * @version 1.0
+ * @since 2024
+ */
 public class ProductoControlador {
 
+    // Componentes de la interfaz gráfica
     @FXML private Button btnCrear, btnActualizar, btnEliminar, btnLimpiar, btnGuardar, btnCargar;
     @FXML private Label lblContador;
     @FXML private Label lblFechaCaducidad, lblTipoAlimento, lblCalorias;
@@ -37,12 +50,25 @@ public class ProductoControlador {
     
     @FXML private ToggleGroup categoria;
     
+    /** Lista observable de productos para la tabla */
     ObservableList<Producto> productos;
+    
+    /** Servicio para operaciones CRUD */
     ImplementacionOperacionCRUD crud;
     
+    /** Ruta del archivo de datos */
     private final String PATH = ".";
+    
+    /** Nombre del archivo de datos */
     private final String NOMBRE_ARCHIVO = "productos.dat";
 
+    /**
+     * Método de inicialización del controlador.
+     * <p>
+     * Se ejecuta automáticamente después de que se carga el FXML.
+     * Configura los componentes iniciales y carga los datos existentes.
+     * </p>
+     */
     @FXML
     public void initialize() {
         productos = FXCollections.observableArrayList();
@@ -54,6 +80,13 @@ public class ProductoControlador {
         actualizarContador();
     }
     
+    /**
+     * Carga los datos iniciales desde el archivo de serialización.
+     * <p>
+     * Intenta cargar productos previamente guardados. Si no existen datos previos,
+     * inicializa con una lista vacía.
+     * </p>
+     */
     private void cargarDatosIniciales() {
         try {
             Producto[] productosCargados = crud.deserializar(PATH, NOMBRE_ARCHIVO);
@@ -72,6 +105,12 @@ public class ProductoControlador {
         }
     }
     
+    /**
+     * Configura los ComboBoxes de la interfaz.
+     * <p>
+     * Establece los valores disponibles para el tipo de producto.
+     * </p>
+     */
     private void configurarComboBoxes() {
         ObservableList<String> tiposProducto = FXCollections.observableArrayList(
             "Esencial", "No Esencial", "Emergencia", "Experimental"
@@ -79,6 +118,13 @@ public class ProductoControlador {
         cmbTipoProducto.setItems(tiposProducto);
     }
     
+    /**
+     * Configura la visibilidad de campos según la categoría seleccionada.
+     * <p>
+     * Agrega un listener al grupo de categorías para mostrar/ocultar campos
+     * específicos según el tipo de producto seleccionado.
+     * </p>
+     */
     private void configurarCamposPorCategoria() {
         categoria.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
             ocultarTodosCampos();
@@ -95,6 +141,12 @@ public class ProductoControlador {
         mostrarCamposAlimento();
     }
     
+    /**
+     * Oculta todos los campos específicos de categoría.
+     * <p>
+     * Utilizado antes de mostrar los campos correspondientes a la categoría seleccionada.
+     * </p>
+     */
     private void ocultarTodosCampos() {
         lblFechaCaducidad.setVisible(false);
         txtFechaCaducidad.setVisible(false);
@@ -125,6 +177,9 @@ public class ProductoControlador {
         txtPotencia.setVisible(false);
     }
     
+    /**
+     * Muestra los campos específicos para productos de tipo Alimento.
+     */
     private void mostrarCamposAlimento() {
         lblFechaCaducidad.setVisible(true);
         txtFechaCaducidad.setVisible(true);
@@ -134,6 +189,9 @@ public class ProductoControlador {
         txtCalorias.setVisible(true);
     }
     
+    /**
+     * Muestra los campos específicos para productos de tipo Equipo Médico.
+     */
     private void mostrarCamposEquipoMedico() {
         lblUsoEspecifico.setVisible(true);
         txtUsoEspecifico.setVisible(true);
@@ -144,6 +202,9 @@ public class ProductoControlador {
         chkEsterilizado.setVisible(true);
     }
     
+    /**
+     * Muestra los campos específicos para productos de tipo Herramienta.
+     */
     private void mostrarCamposHerramienta() {
         lblFuncion.setVisible(true);
         txtFuncion.setVisible(true);
@@ -152,6 +213,9 @@ public class ProductoControlador {
         chkRequiereEnergia.setVisible(true);
     }
     
+    /**
+     * Muestra los campos específicos para productos de tipo Equipo de Comunicación.
+     */
     private void mostrarCamposEquipoComunicacion() {
         lblTipoComunicacion.setVisible(true);
         txtTipoComunicacion.setVisible(true);
@@ -161,12 +225,27 @@ public class ProductoControlador {
         txtPotencia.setVisible(true);
     }
     
+    /**
+     * Actualiza el contador de productos en la interfaz.
+     * <p>
+     * Muestra la cantidad total de productos en la lista.
+     * </p>
+     */
     private void actualizarContador() {
         if (lblContador != null) {
             lblContador.setText(String.valueOf(productos.size()));
         }
     }
 
+    /**
+     * Maneja el evento de crear un nuevo producto.
+     * <p>
+     * Valida los campos, crea el producto según la categoría seleccionada
+     * y lo agrega a la lista.
+     * </p>
+     *
+     * @param event Evento de acción del botón Crear
+     */
     @FXML
     void pressCrear(ActionEvent event) {
         Alert a = new Alert(AlertType.CONFIRMATION);
@@ -243,6 +322,14 @@ public class ProductoControlador {
             }
         }
 
+        /**
+         * Maneja el evento de guardar los productos en archivo.
+         * <p>
+         * Serializa la lista actual de productos y los guarda en el archivo especificado.
+         * </p>
+         *
+         * @param event Evento de acción del botón Guardar
+         */
         @FXML
         void pressGuardar(ActionEvent event) {
             Alert a = new Alert(AlertType.INFORMATION);
@@ -251,6 +338,14 @@ public class ProductoControlador {
             a.show();
         }
 
+        /**
+         * Maneja el evento de cargar productos desde archivo.
+         * <p>
+         * Deserializa los productos desde el archivo y los carga en la tabla.
+         * </p>
+         *
+         * @param event Evento de acción del botón Cargar
+         */
         @FXML
         void pressCargar(ActionEvent event) {
             Alert a = new Alert(AlertType.INFORMATION);
@@ -280,6 +375,15 @@ public class ProductoControlador {
             a.show();
         }
 
+        /**
+         * Maneja el evento de actualizar un producto existente.
+         * <p>
+         * Toma el producto seleccionado en la tabla y actualiza sus datos
+         * con la información de los campos del formulario.
+         * </p>
+         *
+         * @param event Evento de acción del botón Actualizar
+         */
         @FXML
         void pressActualizar(ActionEvent event) {
             Alert a = new Alert(AlertType.CONFIRMATION);
@@ -337,6 +441,15 @@ public class ProductoControlador {
             a.show();
         }
         
+        /**
+         * Maneja el evento de eliminar un producto.
+         * <p>
+         * Solicita confirmación al usuario y elimina el producto seleccionado
+         * tanto de la lista como del servicio CRUD.
+         * </p>
+         *
+         * @param event Evento de acción del botón Eliminar
+         */
         @FXML
         void pressEliminar(ActionEvent event) {
             Alert a = new Alert(AlertType.CONFIRMATION);
@@ -368,11 +481,26 @@ public class ProductoControlador {
             }
         }
         
+        /**
+         * Maneja el evento de limpiar el formulario.
+         * <p>
+         * Limpia todos los campos de entrada y restablece los valores por defecto.
+         * </p>
+         *
+         * @param event Evento de acción del botón Limpiar
+         */
         @FXML
         void pressLimpiar(ActionEvent event) {
             clear();
         }
 
+        /**
+         * Carga y configura los datos en la tabla.
+         * <p>
+         * Establece los cell value factories para cada columna y asigna los datos
+         * a la tabla según el tipo específico de producto.
+         * </p>
+         */
         void loadTable() {
             columnId.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getId()));
             columnNombre.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getNombre()));
@@ -429,6 +557,13 @@ public class ProductoControlador {
             tblView.setItems(productos);
         }
 
+        /**
+         * Limpia todos los campos del formulario.
+         * <p>
+         * Restablece todos los campos de texto, selecciones de combobox
+         * y configuraciones de checkboxes a sus valores por defecto.
+         * </p>
+         */
         void clear() {
             txtId.clear();
             txtNombre.clear();
@@ -456,6 +591,16 @@ public class ProductoControlador {
             rbAlimento.setSelected(true);
         }
         
+        /**
+         * Valida los campos básicos del formulario.
+         * <p>
+         * Verifica que los campos obligatorios (ID, Nombre, Peso, Volumen)
+         * no estén vacíos.
+         * </p>
+         *
+         * @return {@code true} si todos los campos básicos están completos,
+         *         {@code false} en caso contrario
+         */
         private boolean validarCamposBasicos() {
             return txtId.getText() != null && !txtId.getText().isEmpty() &&
                    txtNombre.getText() != null && !txtNombre.getText().isEmpty() &&
@@ -463,6 +608,15 @@ public class ProductoControlador {
                    txtVolumen.getText() != null && !txtVolumen.getText().isEmpty();
         }
         
+        /**
+         * Maneja el evento de selección en la tabla.
+         * <p>
+         * Cuando se selecciona un producto en la tabla, carga sus datos
+         * en los campos correspondientes del formulario.
+         * </p>
+         *
+         * @param event Evento de clic del mouse en la tabla
+         */
         @FXML
         void displaySelected(MouseEvent event) {
             try {
